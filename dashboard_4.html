@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>داشبورد أمالكوم</title>
+<title>داشبورد أملكم</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
@@ -188,7 +188,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
 <body>
 
 <div class="header">
-  <div class="header-title">داشبورد <span>أمالكوم</span></div>
+  <div class="header-title">داشبورد <span>أملكم</span></div>
   <div id="headerDate" class="header-date">لم يتم تحميل بيانات</div>
   <div class="theme-toggle">
     <button class="theme-btn active" onclick="setTheme('dark')">🌙 غامق</button>
@@ -320,7 +320,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
             <th>اسم الموظف</th>
             <th>الفرع</th>
             <th onclick="sortEmp('مبلغ الصرف')">مبلغ الصرف ↕</th>
-            <th onclick="sortEmp('عدد القروض المصروفة')">المصروفة ↕</th>
+            <th onclick="sortEmp('عدد طلبات الصرف')">المصروفة ↕</th>
             <th onclick="sortEmp('عدد القروض النشطة')">النشطة ↕</th>
             <th onclick="sortEmp('محفظة القروض')">المحفظة ↕</th>
             <th onclick="sortEmp('عدد المتأخر >30')">متأخر &gt;30 ↕</th>
@@ -637,7 +637,7 @@ function renderEmpTable(){
       <td style="font-weight:600">${r['اسم الموظف']||'—'}</td>
       <td>${r['الفرع']||'—'}</td>
       <td style="color:var(--accent-bright)">${fmt(r['مبلغ الصرف'])}</td>
-      <td>${Math.round(parseFloat(r['عدد القروض المصروفة'])||0)}</td>
+      <td>${Math.round(parseFloat(r['عدد طلبات الصرف'])||0)}</td>
       <td>${Math.round(parseFloat(r['عدد القروض النشطة'])||0)}</td>
       <td style="color:var(--green)">${fmt(r['محفظة القروض'])}</td>
       <td>${Math.round(parseFloat(r['عدد المتأخر >30'])||0)}</td>
