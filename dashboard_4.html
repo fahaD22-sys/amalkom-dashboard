@@ -338,6 +338,38 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
 
 </div>
 
+<!-- Login Screen -->
+<div id="loginScreen" style="
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:var(--bg);z-index:9999;
+  display:flex;align-items:center;justify-content:center;">
+  <div style="
+    background:var(--card);border:1px solid var(--border);
+    border-radius:20px;padding:48px 56px;text-align:center;
+    box-shadow:0 8px 40px rgba(0,0,0,0.4);width:360px;">
+    <div style="font-size:48px;margin-bottom:16px;">🔐</div>
+    <div style="font-size:22px;font-weight:800;margin-bottom:6px;">أمالكوم</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:28px;">داشبورد متابعة الأداء</div>
+    <input id="passwordInput" type="password"
+      placeholder="كلمة المرور"
+      onkeydown="if(event.key==='Enter')checkPassword()"
+      style="
+        width:100%;background:var(--bg2);border:1px solid var(--border);
+        border-radius:10px;padding:12px 16px;font-family:'Tajawal',sans-serif;
+        font-size:15px;color:var(--text);outline:none;text-align:center;
+        margin-bottom:12px;direction:ltr;">
+    <div id="loginError" style="display:none;color:var(--red);font-size:13px;margin-bottom:12px;">
+      ❌ كلمة المرور غير صحيحة
+    </div>
+    <button onclick="checkPassword()" style="
+      width:100%;background:var(--accent);color:white;border:none;
+      padding:12px;border-radius:10px;font-family:'Tajawal',sans-serif;
+      font-size:15px;font-weight:700;cursor:pointer;">
+      دخول
+    </button>
+  </div>
+</div>
+
 <div class="footer-bar" id="footerBar" style="display:none">
   <span>أمالكوم للتنمية الاقتصادية</span>
   <span id="footerDate">—</span>
@@ -346,32 +378,39 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
 <script>
 let allData={}, charts={}, activeFilter='الكل', sortField='مبلغ الصرف', sortAsc=false;
 
-// ── تحميل تلقائي من OneDrive عند فتح الصفحة ──
-const ONEDRIVE_URL = "https://amalkom-my.sharepoint.com/:x:/g/personal/nmuhammed_amalkom_org/IQDQ1BXD0aWlS7NiGgZrOqQhAXLVGoMppuoZZrMIxI-wmkc?download=1";
+const ONEDRIVE_URL = "https://raw.githubusercontent.com/fahad22-sys/amalkom-dashboard/main/output/dashboard_output.xlsx";
+const PASSWORD = "amalkom2026";
 
-window.addEventListener('load', () => {
+function checkPassword(){
+  const input = document.getElementById('passwordInput').value;
+  if(input === PASSWORD){
+    document.getElementById('loginScreen').style.display='none';
+    loadData();
+  } else {
+    document.getElementById('loginError').style.display='block';
+    document.getElementById('passwordInput').value='';
+    document.getElementById('passwordInput').focus();
+  }
+}
+
+function loadData(){
   document.getElementById('uploadArea').style.display='none';
   document.getElementById('loading').style.display='flex';
-  document.querySelector('.loading div:last-child').textContent='جاري تحميل البيانات من OneDrive...';
+  document.querySelector('.loading div:last-child').textContent='جاري تحميل البيانات...';
 
   fetch(ONEDRIVE_URL)
-    .then(r => {
-      if(!r.ok) throw new Error('فشل التحميل');
-      return r.arrayBuffer();
-    })
-    .then(buf => {
-      const wb = XLSX.read(buf, {type:'array'});
-      allData = {};
-      wb.SheetNames.forEach(n => { allData[n] = XLSX.utils.sheet_to_json(wb.Sheets[n]); });
+    .then(r=>{ if(!r.ok)throw new Error('فشل'); return r.arrayBuffer(); })
+    .then(buf=>{
+      const wb=XLSX.read(buf,{type:'array'});
+      allData={};
+      wb.SheetNames.forEach(n=>{allData[n]=XLSX.utils.sheet_to_json(wb.Sheets[n]);});
       buildDashboard();
     })
-    .catch(err => {
-      // لو فشل OneDrive، ارجع لخيار التحميل اليدوي
+    .catch(()=>{
       document.getElementById('loading').style.display='none';
       document.getElementById('uploadArea').style.display='flex';
-      console.warn('OneDrive load failed, falling back to manual:', err);
     });
-});
+}
 
 function fmt(n){
   if(n===undefined||n===null||isNaN(n))return'—';
