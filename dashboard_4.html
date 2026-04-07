@@ -3,45 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>داشبورد أملكم</title>
+<title>داشبورد أمالكوم</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --accent:#2979d4; --accent-bright:#4a9eff;
-  --bg:#0d1f3c; --bg2:#112244; --bg3:#162a52;
-  --card:#1a3260; --border:#2a4a80;
-  --text:#e8f0ff; --text-muted:#7a9cc8;
-  --gold:#f0b429; --green:#22c55e; --red:#ef4444;
-  --grid:#1e3a6a; --shadow:rgba(0,0,0,0.4);
-  --th:#112244; --tr:#1a3260; --ta:#1e3a6e; --thov:#243f7a;
+:root{
+  --accent:#2979d4;--accent-bright:#4a9eff;
+  --bg:#0d1f3c;--bg2:#112244;--bg3:#162a52;
+  --card:#1a3260;--border:#2a4a80;
+  --text:#e8f0ff;--text-muted:#7a9cc8;
+  --gold:#f0b429;--green:#22c55e;--red:#ef4444;
+  --grid:#1e3a6a;--shadow:rgba(0,0,0,0.4);
+  --th:#112244;--tr:#1a3260;--ta:#1e3a6e;--thov:#243f7a;
 }
-[data-theme="light"] {
-  --bg:#f0f4ff; --bg2:#e4eaf8; --bg3:#dce4f5;
-  --card:#ffffff; --border:#c0cfe8;
-  --text:#1a2a4a; --text-muted:#5a78a8;
-  --grid:#dde6f5; --shadow:rgba(0,0,50,0.1);
-  --th:#e4eaf8; --tr:#ffffff; --ta:#f4f7ff; --thov:#e8effe;
+[data-theme="light"]{
+  --bg:#f0f4ff;--bg2:#e4eaf8;--bg3:#dce4f5;
+  --card:#fff;--border:#c0cfe8;
+  --text:#1a2a4a;--text-muted:#5a78a8;
+  --grid:#dde6f5;--shadow:rgba(0,0,50,0.1);
+  --th:#e4eaf8;--tr:#fff;--ta:#f4f7ff;--thov:#e8effe;
   --accent-bright:#1a6ad4;
 }
 *{margin:0;padding:0;box-sizing:border-box;transition:background .3s,color .3s,border-color .3s;}
 body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;}
 
 /* Header */
-.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .header-title{font-size:20px;font-weight:800;flex:1;}
 .header-title span{color:var(--accent-bright);}
-.header-date{font-size:12px;color:var(--text-muted);background:var(--bg3);padding:5px 12px;border-radius:20px;border:1px solid var(--border);}
+.header-date{font-size:12px;color:var(--text-muted);background:var(--bg3);padding:4px 10px;border-radius:20px;border:1px solid var(--border);}
 .theme-toggle{background:var(--bg3);border:1px solid var(--border);border-radius:24px;padding:3px;display:flex;gap:2px;}
-.theme-btn{background:none;border:none;padding:5px 12px;border-radius:20px;font-size:12px;cursor:pointer;color:var(--text-muted);font-family:'Tajawal',sans-serif;transition:all .2s;}
+.theme-btn{background:none;border:none;padding:4px 10px;border-radius:20px;font-size:12px;cursor:pointer;color:var(--text-muted);font-family:'Tajawal',sans-serif;transition:all .2s;}
 .theme-btn.active{background:var(--accent);color:white;}
-.upload-btn{background:var(--accent);color:white;border:none;padding:7px 16px;border-radius:8px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
-.upload-btn:hover{opacity:.9;}
+.print-btn{background:var(--bg3);color:var(--text);border:1px solid var(--border);padding:6px 14px;border-radius:8px;font-family:'Tajawal',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;}
+.print-btn:hover{border-color:var(--accent);color:var(--accent-bright);}
+.upload-btn{background:var(--accent);color:white;border:none;padding:6px 14px;border-radius:8px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
 #fileInput{display:none;}
 
 /* Upload */
-.upload-area{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 58px);}
+.upload-area{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 55px);}
 .upload-box{background:var(--card);border:2px dashed var(--border);border-radius:20px;padding:60px 80px;text-align:center;cursor:pointer;transition:all .3s;}
 .upload-box:hover{border-color:var(--accent);}
 .upload-icon{font-size:48px;margin-bottom:16px;}
@@ -49,153 +50,159 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
 .upload-box p{color:var(--text-muted);font-size:13px;}
 
 /* Loading */
-.loading{display:none;align-items:center;justify-content:center;min-height:calc(100vh - 58px);flex-direction:column;gap:16px;}
+.loading{display:none;align-items:center;justify-content:center;min-height:calc(100vh - 55px);flex-direction:column;gap:16px;}
 .spinner{width:44px;height:44px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
 /* Dashboard */
-.dashboard{display:none;padding:16px 24px;}
-.filters{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.dashboard{display:none;padding:14px 20px;}
+.filters{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
 .filter-label{font-size:13px;color:var(--text-muted);font-weight:600;}
-.filter-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:5px 14px;border-radius:20px;font-family:'Tajawal',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;font-weight:500;}
+.filter-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:5px 12px;border-radius:20px;font-family:'Tajawal',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;font-weight:500;}
 .filter-btn.active{background:var(--accent);border-color:var(--accent);color:white;}
-.tab-nav{display:flex;gap:3px;background:var(--bg2);border-radius:10px;padding:3px;width:fit-content;margin-bottom:14px;border:1px solid var(--border);}
-.tab-btn{background:none;border:none;color:var(--text-muted);padding:6px 16px;border-radius:7px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
+.tab-nav{display:flex;gap:3px;background:var(--bg2);border-radius:10px;padding:3px;width:fit-content;margin-bottom:12px;border:1px solid var(--border);}
+.tab-btn{background:none;border:none;color:var(--text-muted);padding:6px 14px;border-radius:7px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
 .tab-btn.active{background:var(--accent);color:white;}
 
-/* ── TOP ROW: 4 KPI cards ── */
-.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px;}
-.kpi-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:14px;padding:16px 18px;
-  position:relative;overflow:hidden;
-  box-shadow:0 2px 10px var(--shadow);
-  transition:transform .2s;
-}
+/* KPI Row */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px;}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden;box-shadow:0 2px 8px var(--shadow);transition:transform .2s;}
 .kpi-card:hover{transform:translateY(-2px);}
-.kpi-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
-.kpi-label{font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
-.kpi-icon{font-size:20px;opacity:.7;}
-.kpi-value{font-size:22px;font-weight:800;line-height:1;margin-bottom:6px;}
-.kpi-card.blue  .kpi-value{color:var(--accent-bright);}
-.kpi-card.gold  .kpi-value{color:var(--gold);}
+.kpi-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;}
+.kpi-card.blue::after{background:var(--accent);}
+.kpi-card.gold::after{background:var(--gold);}
+.kpi-card.green::after{background:var(--green);}
+.kpi-card.red::after{background:var(--red);}
+.kpi-card.purple::after{background:#a855f7;}
+.kpi-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.kpi-label{font-size:10px;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
+.kpi-icon{font-size:18px;opacity:.7;}
+.kpi-value{font-size:20px;font-weight:800;line-height:1;margin-bottom:4px;}
+.kpi-card.blue .kpi-value{color:var(--accent-bright);}
+.kpi-card.gold .kpi-value{color:var(--gold);}
 .kpi-card.green .kpi-value{color:var(--green);}
-.kpi-card.red   .kpi-value{color:var(--red);}
-.kpi-footer{display:flex;gap:16px;font-size:11px;color:var(--text-muted);}
-.kpi-footer .prev{opacity:.7;}
-.kpi-footer .change{font-weight:700;}
-.kpi-footer .change.up{color:var(--green);}
-.kpi-footer .change.down{color:var(--red);}
-.kpi-bar{height:3px;border-radius:2px;margin-top:10px;background:var(--border);}
-.kpi-bar-fill{height:100%;border-radius:2px;transition:width .8s ease;}
-.kpi-card.blue  .kpi-bar-fill{background:var(--accent);}
-.kpi-card.gold  .kpi-bar-fill{background:var(--gold);}
+.kpi-card.red .kpi-value{color:var(--red);}
+.kpi-card.purple .kpi-value{color:#a855f7;}
+.kpi-sub{font-size:11px;color:var(--text-muted);}
+.kpi-bar{height:3px;border-radius:2px;margin-top:8px;background:var(--border);}
+.kpi-bar-fill{height:100%;border-radius:2px;}
+.kpi-card.blue .kpi-bar-fill{background:var(--accent);}
+.kpi-card.gold .kpi-bar-fill{background:var(--gold);}
 .kpi-card.green .kpi-bar-fill{background:var(--green);}
-.kpi-card.red   .kpi-bar-fill{background:var(--red);}
+.kpi-card.red .kpi-bar-fill{background:var(--red);}
+.kpi-card.purple .kpi-bar-fill{background:#a855f7;}
 
-/* ── MIDDLE ROW: Gauge + Late chart + Ready cards ── */
-.mid-row{display:grid;grid-template-columns:220px 1fr 1fr;gap:12px;margin-bottom:12px;}
+/* Mid Row */
+.mid-row{display:grid;grid-template-columns:200px 1fr 1fr;gap:10px;margin-bottom:10px;}
 
-/* Gauge card */
-.gauge-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:14px;padding:16px;
-  box-shadow:0 2px 10px var(--shadow);
-  display:flex;flex-direction:column;align-items:center;
-}
-.gauge-title{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;}
-.gauge-wrap{position:relative;width:160px;height:100px;}
-.gauge-wrap canvas{width:160px!important;height:160px!important;margin-top:-30px;}
-.gauge-val{position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-size:18px;font-weight:800;color:var(--red);white-space:nowrap;}
-.gauge-sub{font-size:11px;color:var(--text-muted);margin-top:4px;text-align:center;}
-.gauge-range{display:flex;justify-content:space-between;width:100%;font-size:10px;color:var(--text-muted);margin-top:4px;}
+/* Gauge */
+.gauge-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:0 2px 8px var(--shadow);display:flex;flex-direction:column;align-items:center;}
+.gauge-title{font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;}
+.gauge-wrap{position:relative;width:150px;height:90px;}
+.gauge-wrap canvas{width:150px!important;height:150px!important;margin-top:-28px;}
+.gauge-val{position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-size:14px;font-weight:800;white-space:nowrap;text-align:center;}
+.gauge-target{font-size:10px;color:var(--text-muted);margin-top:4px;text-align:center;}
+.gauge-range{display:flex;justify-content:space-between;width:100%;font-size:9px;color:var(--text-muted);margin-top:2px;}
 
-/* Chart card */
-.chart-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:14px;padding:16px;
-  box-shadow:0 2px 10px var(--shadow);
-}
+/* Chart cards */
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:0 2px 8px var(--shadow);}
 .chart-title{font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
 .chart-title::before{content:'';width:3px;height:14px;background:var(--accent);border-radius:2px;}
-.chart-wrap{position:relative;height:160px;}
-.chart-wrap-tall{position:relative;height:200px;}
+.chart-wrap{position:relative;height:150px;}
+.chart-wrap-md{position:relative;height:180px;}
+.chart-wrap-lg{position:relative;height:200px;}
+.chart-date{font-size:10px;color:var(--text-muted);text-align:center;margin-top:6px;}
 
-/* Branch cards for Ready */
-.ready-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:14px;padding:16px;
-  box-shadow:0 2px 10px var(--shadow);
-}
-.branch-list{display:flex;flex-direction:column;gap:8px;}
-.branch-item{
-  background:var(--bg2);border:1px solid var(--border);
-  border-radius:10px;padding:10px 14px;
-  display:flex;align-items:center;justify-content:space-between;
-  transition:all .2s;cursor:default;
-}
-.branch-item:hover{border-color:var(--gold);transform:translateX(-2px);}
-.branch-item-name{font-size:13px;font-weight:700;}
-.branch-item-right{text-align:left;}
-.branch-item-val{font-size:15px;font-weight:800;color:var(--gold);}
-.branch-item-count{font-size:11px;color:var(--text-muted);}
-.branch-item-bar{height:3px;border-radius:2px;background:var(--border);margin-top:6px;}
-.branch-item-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold),#f5c842);}
+/* Branch cards */
+.ready-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:0 2px 8px var(--shadow);}
+.branch-list{display:flex;flex-direction:column;gap:6px;}
+.branch-item{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden;transition:all .2s;}
+.branch-item:hover{border-color:var(--gold);}
+.branch-item-name{font-size:12px;font-weight:700;}
+.branch-item-val{font-size:13px;font-weight:800;color:var(--gold);}
+.branch-item-count{font-size:10px;color:var(--text-muted);}
+.branch-item-prog{position:absolute;bottom:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),#f5c842);}
 
-/* ── BOTTOM ROW: Bank balances like top cards ── */
-.bank-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px;}
-.bank-kpi{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:14px;padding:14px 16px;
-  box-shadow:0 2px 10px var(--shadow);
-  transition:transform .2s;position:relative;overflow:hidden;
-}
+/* PAR cards */
+.par-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px;}
+.par-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;box-shadow:0 2px 8px var(--shadow);position:relative;overflow:hidden;}
+.par-branch{font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:4px;}
+.par-value{font-size:22px;font-weight:800;}
+.par-label{font-size:10px;color:var(--text-muted);}
+.par-bar{height:4px;border-radius:2px;background:var(--border);margin-top:8px;}
+.par-fill{height:100%;border-radius:2px;}
+.par-low-c{color:#22c55e;}.par-mid-c{color:#f0b429;}.par-high-c{color:#ef4444;}
+.par-low-bg{background:#22c55e;}.par-mid-bg{background:#f0b429;}.par-high-bg{background:#ef4444;}
+
+/* Bank row */
+.bank-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:10px;}
+.bank-kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;box-shadow:0 2px 8px var(--shadow);transition:transform .2s;position:relative;overflow:hidden;}
 .bank-kpi:hover{transform:translateY(-2px);}
-.bank-kpi::after{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:var(--green);border-radius:0 14px 14px 0;}
-.bank-kpi-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-.bank-kpi-branch{font-size:11px;color:var(--text-muted);font-weight:600;text-transform:uppercase;}
-.bank-kpi-icon{font-size:16px;}
-.bank-kpi-total{font-size:20px;font-weight:800;color:var(--green);margin-bottom:6px;}
-.bank-kpi-banks{display:flex;flex-direction:column;gap:3px;}
-.bank-kpi-row{display:flex;justify-content:space-between;font-size:11px;}
+.bank-kpi::after{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:var(--green);border-radius:0 12px 12px 0;}
+.bank-kpi-branch{font-size:10px;color:var(--text-muted);font-weight:600;text-transform:uppercase;margin-bottom:4px;}
+.bank-kpi-total{font-size:17px;font-weight:800;color:var(--green);margin-bottom:4px;}
+.bank-kpi-row{display:flex;justify-content:space-between;font-size:10px;margin-top:2px;}
 .bank-kpi-name{color:var(--text-muted);}
 .bank-kpi-val{color:var(--text);font-weight:600;}
 .bank-kpi-divider{height:1px;background:var(--border);margin:4px 0;}
 
-/* ── Employee section ── */
-.emp-section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 2px 10px var(--shadow);margin-bottom:12px;}
-.table-controls{display:flex;gap:10px;margin-bottom:10px;align-items:center;}
+/* History charts */
+.history-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.wide-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:0 2px 8px var(--shadow);margin-bottom:10px;}
+
+/* Employee */
+.emp-section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:0 2px 8px var(--shadow);margin-bottom:10px;}
 .search-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-family:'Tajawal',sans-serif;font-size:13px;color:var(--text);width:200px;outline:none;}
 .search-box:focus{border-color:var(--accent);}
 .emp-table{width:100%;border-collapse:collapse;font-size:12px;}
-.emp-table th{background:var(--th);color:var(--text-muted);padding:8px 10px;text-align:right;font-weight:600;font-size:11px;border-bottom:2px solid var(--border);cursor:pointer;white-space:nowrap;}
+.emp-table th{background:var(--th);color:var(--text-muted);padding:7px 8px;text-align:right;font-weight:600;font-size:10px;border-bottom:2px solid var(--border);cursor:pointer;white-space:nowrap;}
 .emp-table th:hover{color:var(--accent-bright);}
-.emp-table td{padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap;}
+.emp-table td{padding:7px 8px;border-bottom:1px solid var(--border);white-space:nowrap;}
 .emp-table tr:nth-child(odd) td{background:var(--tr);}
 .emp-table tr:nth-child(even) td{background:var(--ta);}
 .emp-table tr:hover td{background:var(--thov);}
-.par-badge{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;}
+.par-badge{padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;}
 .par-low{background:rgba(34,197,94,.15);color:#22c55e;}
 .par-mid{background:rgba(240,180,41,.15);color:#f0b429;}
 .par-high{background:rgba(239,68,68,.15);color:#ef4444;}
 
-/* Wide chart */
-.wide-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 2px 10px var(--shadow);margin-bottom:12px;}
+.footer-bar{background:var(--bg2);border-top:1px solid var(--border);padding:6px 20px;font-size:11px;color:var(--text-muted);display:flex;justify-content:space-between;}
 
-.footer-bar{background:var(--bg2);border-top:1px solid var(--border);padding:8px 24px;font-size:12px;color:var(--text-muted);display:flex;justify-content:space-between;}
+/* Print */
+@media print{
+  .header .theme-toggle,.header .print-btn,.header .upload-btn,.filters,.tab-nav{display:none!important;}
+  .dashboard{padding:0;}
+  body{background:white;color:black;}
+  .kpi-card,.chart-card,.gauge-card,.ready-card,.bank-kpi,.par-card,.wide-card,.emp-section,.chart-wide{box-shadow:none;border:1px solid #ccc;}
+}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-title">داشبورد <span>أملكم</span></div>
-  <div id="headerDate" class="header-date">لم يتم تحميل بيانات</div>
+  <div class="header-title">داشبورد <span>أمالكوم</span></div>
+  <div id="headerDate" class="header-date">—</div>
   <div class="theme-toggle">
-    <button class="theme-btn active" onclick="setTheme('dark')">🌙 غامق</button>
-    <button class="theme-btn" onclick="setTheme('light')">☀️ فاتح</button>
+    <button class="theme-btn active" onclick="setTheme('dark')">🌙</button>
+    <button class="theme-btn" onclick="setTheme('light')">☀️</button>
   </div>
-  <button class="upload-btn" onclick="document.getElementById('fileInput').click()">⬆ تحميل ملف</button>
+  <button class="print-btn" onclick="window.print()">🖨️ طباعة</button>
+  <button class="upload-btn" onclick="document.getElementById('fileInput').click()">⬆ تحميل</button>
   <input type="file" id="fileInput" accept=".xlsx,.xls" onchange="loadFile(this)">
+</div>
+
+<!-- Login -->
+<div id="loginScreen" style="position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:48px 56px;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.4);width:340px;">
+    <div style="font-size:44px;margin-bottom:12px;">🔐</div>
+    <div style="font-size:20px;font-weight:800;margin-bottom:4px;">أمالكوم</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:24px;">داشبورد متابعة الأداء</div>
+    <input id="passwordInput" type="password" placeholder="كلمة المرور"
+      onkeydown="if(event.key==='Enter')checkPassword()"
+      style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Tajawal',sans-serif;font-size:15px;color:var(--text);outline:none;text-align:center;margin-bottom:10px;direction:ltr;">
+    <div id="loginError" style="display:none;color:var(--red);font-size:12px;margin-bottom:10px;">❌ كلمة المرور غير صحيحة</div>
+    <button onclick="checkPassword()" style="width:100%;background:var(--accent);color:white;border:none;padding:11px;border-radius:10px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:700;cursor:pointer;">دخول</button>
+  </div>
 </div>
 
 <div class="upload-area" id="uploadArea">
@@ -203,7 +210,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
     <div class="upload-box">
       <div class="upload-icon">📊</div>
       <h2>اسحب ملف dashboard_output.xlsx هنا</h2>
-      <p>أو اضغط لاختيار الملف من جهازك</p>
+      <p>أو اضغط لاختيار الملف</p>
     </div>
   </label>
 </div>
@@ -220,107 +227,92 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
     <button class="tab-btn" onclick="switchTab('employees')">👥 الموظفين</button>
   </div>
 
-  <!-- BRANCHES TAB -->
+  <!-- BRANCHES -->
   <div id="branchView">
 
-    <!-- TOP ROW: 4 KPI cards -->
+    <!-- KPI Row -->
     <div class="kpi-row">
       <div class="kpi-card blue">
-        <div class="kpi-top">
-          <div class="kpi-label">إجمالي المتأخرات</div>
-          <div class="kpi-icon">⚠️</div>
-        </div>
+        <div class="kpi-top"><div class="kpi-label">إجمالي المتأخرات</div><div class="kpi-icon">⚠️</div></div>
         <div class="kpi-value" id="kpiLate">—</div>
-        <div class="kpi-footer">
-          <span class="prev">دينار عراقي</span>
-        </div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" id="barLate" style="width:70%"></div></div>
+        <div class="kpi-sub">دينار عراقي</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:70%"></div></div>
       </div>
       <div class="kpi-card gold">
-        <div class="kpi-top">
-          <div class="kpi-label">جاهز للصرف</div>
-          <div class="kpi-icon">✅</div>
-        </div>
+        <div class="kpi-top"><div class="kpi-label">جاهز للصرف</div><div class="kpi-icon">✅</div></div>
         <div class="kpi-value" id="kpiReady">—</div>
-        <div class="kpi-footer">
-          <span class="prev" id="kpiReadyCount">—</span>
-        </div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" id="barReady" style="width:55%"></div></div>
-      </div>
-      <div class="kpi-card red">
-        <div class="kpi-top">
-          <div class="kpi-label">مبلغ الصرف هذا الشهر</div>
-          <div class="kpi-icon">💸</div>
-        </div>
-        <div class="kpi-value" id="kpiDisbursed">—</div>
-        <div class="kpi-footer">
-          <span class="prev">دينار عراقي</span>
-        </div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" id="barDisb" style="width:45%"></div></div>
+        <div class="kpi-sub" id="kpiReadyCount">—</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:55%"></div></div>
       </div>
       <div class="kpi-card green">
-        <div class="kpi-top">
-          <div class="kpi-label">القروض النشطة</div>
-          <div class="kpi-icon">🏦</div>
-        </div>
+        <div class="kpi-top"><div class="kpi-label">القروض النشطة</div><div class="kpi-icon">🏦</div></div>
         <div class="kpi-value" id="kpiActive">—</div>
-        <div class="kpi-footer">
-          <span class="prev">قرض نشط</span>
-        </div>
-        <div class="kpi-bar"><div class="kpi-bar-fill" id="barActive" style="width:80%"></div></div>
+        <div class="kpi-sub">قرض نشط</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:80%"></div></div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-top"><div class="kpi-label">محفظة القروض</div><div class="kpi-icon">💼</div></div>
+        <div class="kpi-value" id="kpiPortfolio">—</div>
+        <div class="kpi-sub">دينار عراقي</div>
+        <div class="kpi-bar"><div class="kpi-bar-fill" style="width:65%"></div></div>
       </div>
     </div>
 
-    <!-- MIDDLE ROW: Gauge + Late chart + Ready branch cards -->
-    <div class="mid-row">
+    <!-- PAR Row -->
+    <div class="par-row" id="parRow"></div>
 
-      <!-- Gauge: مبلغ الصرف -->
+    <!-- Mid Row: Gauge + Late chart + Ready cards -->
+    <div class="mid-row">
       <div class="gauge-card">
         <div class="gauge-title">نسبة الصرف</div>
         <div class="gauge-wrap">
           <canvas id="gaugeChart"></canvas>
-          <div class="gauge-val" id="gaugeVal">—%</div>
+          <div class="gauge-val" id="gaugeVal">—</div>
         </div>
-        <div class="gauge-sub" id="gaugeSub">من إجمالي المحفظة</div>
-        <div class="gauge-range">
-          <span>0%</span><span>50%</span><span>100%</span>
-        </div>
+        <div class="gauge-target" id="gaugeTarget">—</div>
+        <div class="gauge-range"><span>0</span><span>الهدف</span><span>Max</span></div>
       </div>
-
-      <!-- Late chart -->
       <div class="chart-card">
         <div class="chart-title">المتأخرات حسب الفرع</div>
-        <div class="chart-wrap-tall"><canvas id="chartLate"></canvas></div>
+        <div class="chart-wrap-md"><canvas id="chartLate"></canvas></div>
+        <div class="chart-date" id="lateDate">—</div>
       </div>
-
-      <!-- Ready branch cards -->
       <div class="ready-card">
         <div class="chart-title">جاهز للصرف حسب الفرع</div>
         <div class="branch-list" id="branchList"></div>
       </div>
-
     </div>
 
-    <!-- BOTTOM ROW: Bank balances like KPI cards -->
-    <div id="bankRow" class="bank-row"></div>
+    <!-- History charts -->
+    <div class="history-row">
+      <div class="chart-card">
+        <div class="chart-title">الصرف - آخر 3 أشهر</div>
+        <div class="chart-wrap-lg"><canvas id="chartHistDisb"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">المتأخرات - آخر 3 أشهر</div>
+        <div class="chart-wrap-lg"><canvas id="chartHistLate"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Bank Row -->
+    <div class="bank-row" id="bankRow"></div>
 
   </div>
 
-  <!-- EMPLOYEES TAB -->
+  <!-- EMPLOYEES -->
   <div id="employeeView" style="display:none">
     <div class="emp-section">
       <div class="chart-title">جدول أداء الموظفين</div>
-      <div class="table-controls">
+      <div style="margin-bottom:10px">
         <input class="search-box" type="text" id="empSearch" placeholder="🔍 بحث باسم الموظف..." oninput="renderEmpTable()">
       </div>
       <div style="overflow-x:auto">
         <table class="emp-table">
           <thead><tr>
-            <th>#</th>
-            <th>اسم الموظف</th>
-            <th>الفرع</th>
+            <th>#</th><th>اسم الموظف</th><th>الفرع</th>
             <th onclick="sortEmp('مبلغ الصرف')">مبلغ الصرف ↕</th>
-            <th onclick="sortEmp('عدد طلبات الصرف')">المصروفة ↕</th>
+            <th onclick="sortEmp('عدد القروض المصروفة')">المصروفة ↕</th>
             <th onclick="sortEmp('عدد القروض النشطة')">النشطة ↕</th>
             <th onclick="sortEmp('محفظة القروض')">المحفظة ↕</th>
             <th onclick="sortEmp('عدد المتأخر >30')">متأخر &gt;30 ↕</th>
@@ -332,74 +324,48 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
     </div>
     <div class="wide-card">
       <div class="chart-title">مقارنة مبلغ الصرف بين الموظفين</div>
-      <div class="chart-wrap-tall"><canvas id="chartEmp"></canvas></div>
+      <div class="chart-wrap-lg"><canvas id="chartEmp"></canvas></div>
     </div>
-  </div>
-
-</div>
-
-<!-- Login Screen -->
-<div id="loginScreen" style="
-  position:fixed;top:0;left:0;right:0;bottom:0;
-  background:var(--bg);z-index:9999;
-  display:flex;align-items:center;justify-content:center;">
-  <div style="
-    background:var(--card);border:1px solid var(--border);
-    border-radius:20px;padding:48px 56px;text-align:center;
-    box-shadow:0 8px 40px rgba(0,0,0,0.4);width:360px;">
-    <div style="font-size:48px;margin-bottom:16px;">🔐</div>
-    <div style="font-size:22px;font-weight:800;margin-bottom:6px;">داشبورد متابعة الأداء</div>
-    <div style="font-size:13px;color:var(--text-muted);margin-bottom:28px;">By Nawar IT </div>
-    <input id="passwordInput" type="password"
-      placeholder="كلمة المرور"
-      onkeydown="if(event.key==='Enter')checkPassword()"
-      style="
-        width:100%;background:var(--bg2);border:1px solid var(--border);
-        border-radius:10px;padding:12px 16px;font-family:'Tajawal',sans-serif;
-        font-size:15px;color:var(--text);outline:none;text-align:center;
-        margin-bottom:12px;direction:ltr;">
-    <div id="loginError" style="display:none;color:var(--red);font-size:13px;margin-bottom:12px;">
-      ❌ كلمة المرور غير صحيحة
-    </div>
-    <button onclick="checkPassword()" style="
-      width:100%;background:var(--accent);color:white;border:none;
-      padding:12px;border-radius:10px;font-family:'Tajawal',sans-serif;
-      font-size:15px;font-weight:700;cursor:pointer;">
-      دخول
-    </button>
   </div>
 </div>
 
 <div class="footer-bar" id="footerBar" style="display:none">
-  <span>املكم للتنمية الاقتصادية</span>
+  <span>أمالكوم للتنمية الاقتصادية</span>
   <span id="footerDate">—</span>
 </div>
 
 <script>
-let allData={}, charts={}, activeFilter='الكل', sortField='مبلغ الصرف', sortAsc=false;
+let allData={},charts={},activeFilter='الكل',sortField='مبلغ الصرف',sortAsc=false;
+const EXCEL_URL="https://raw.githubusercontent.com/fahad22-sys/amalkom-dashboard/main/output/dashboard_output.xlsx";
+const PASSWORD="amalkom2026";
+const TARGET_DISB=1600000000000;
 
-const ONEDRIVE_URL = "https://raw.githubusercontent.com/fahad22-sys/amalkom-dashboard/main/output/dashboard_output.xlsx";
-const PASSWORD = "amalkom2026";
+function fmt(n){
+  if(n===undefined||n===null||isNaN(n))return'—';
+  n=parseFloat(n);
+  if(n>=1e12)return(n/1e12).toFixed(3)+' تريليون';
+  if(n>=1e9)return(n/1e9).toFixed(3)+' مليار';
+  if(n>=1e6)return(n/1e6).toFixed(3)+' مليون';
+  if(n>=1e3)return(n/1e3).toFixed(0)+' ألف';
+  return n.toFixed(0);
+}
+function fmtFull(n){if(!n||isNaN(n))return'0';return parseFloat(n).toLocaleString('ar-IQ');}
 
 function checkPassword(){
-  const input = document.getElementById('passwordInput').value;
-  if(input === PASSWORD){
+  if(document.getElementById('passwordInput').value===PASSWORD){
     document.getElementById('loginScreen').style.display='none';
     loadData();
   } else {
     document.getElementById('loginError').style.display='block';
     document.getElementById('passwordInput').value='';
-    document.getElementById('passwordInput').focus();
   }
 }
 
 function loadData(){
   document.getElementById('uploadArea').style.display='none';
   document.getElementById('loading').style.display='flex';
-  document.querySelector('.loading div:last-child').textContent='جاري تحميل البيانات...';
-
-  fetch(ONEDRIVE_URL)
-    .then(r=>{ if(!r.ok)throw new Error('فشل'); return r.arrayBuffer(); })
+  fetch(EXCEL_URL+'?t='+Date.now())
+    .then(r=>{if(!r.ok)throw new Error();return r.arrayBuffer();})
     .then(buf=>{
       const wb=XLSX.read(buf,{type:'array'});
       allData={};
@@ -412,26 +378,8 @@ function loadData(){
     });
 }
 
-function fmt(n){
-  if(n===undefined||n===null||isNaN(n))return'—';
-  n=parseFloat(n);
-  if(n>=1e9)return(n/1e9).toFixed(2)+' مليار';
-  if(n>=1e6)return(n/1e6).toFixed(1)+' مليون';
-  if(n>=1e3)return(n/1e3).toFixed(0)+' ألف';
-  return n.toFixed(0);
-}
-function fmtFull(n){if(!n||isNaN(n))return'0';return parseFloat(n).toLocaleString('ar-IQ');}
-
-function setTheme(t){
-  document.documentElement.setAttribute('data-theme',t);
-  document.querySelectorAll('.theme-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&t==='dark')||(i===1&&t==='light')));
-  Object.values(charts).forEach(c=>{if(c)c.destroy();});
-  charts={};
-  if(Object.keys(allData).length)renderAll();
-}
-
 function loadFile(input){
-  const file=input.files[0]; if(!file)return;
+  const file=input.files[0];if(!file)return;
   document.getElementById('uploadArea').style.display='none';
   document.getElementById('loading').style.display='flex';
   const reader=new FileReader();
@@ -439,7 +387,7 @@ function loadFile(input){
     const wb=XLSX.read(e.target.result,{type:'array'});
     allData={};
     wb.SheetNames.forEach(n=>{allData[n]=XLSX.utils.sheet_to_json(wb.Sheets[n]);});
-    setTimeout(()=>buildDashboard(),300);
+    buildDashboard();
   };
   reader.readAsArrayBuffer(file);
 }
@@ -447,18 +395,19 @@ function loadFile(input){
 function buildDashboard(){
   const late=allData['المتأخرات']||[];
   const date=late[0]?late[0]['تاريخ التقرير']:'—';
-  document.getElementById('headerDate').textContent='تاريخ التقرير: '+date;
+  document.getElementById('headerDate').textContent='تاريخ: '+date;
   document.getElementById('footerDate').textContent=date;
+  document.getElementById('lateDate').textContent='تاريخ التقرير: '+date;
 
   const branches=[...new Set(late.map(r=>r['الفرع']).filter(Boolean))];
-  const filterDiv=document.getElementById('filterBtns');
-  filterDiv.innerHTML='<span class="filter-label">الفرع:</span>';
+  const fd=document.getElementById('filterBtns');
+  fd.innerHTML='<span class="filter-label">الفرع:</span>';
   ['الكل',...branches].forEach(b=>{
     const btn=document.createElement('button');
     btn.className='filter-btn'+(b==='الكل'?' active':'');
     btn.textContent=b;
     btn.onclick=()=>setFilter(b);
-    filterDiv.appendChild(btn);
+    fd.appendChild(btn);
   });
 
   renderAll();
@@ -467,13 +416,13 @@ function buildDashboard(){
   document.getElementById('footerBar').style.display='flex';
 }
 
-function setFilter(branch){
-  activeFilter=branch;
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b.textContent===branch));
+function setFilter(b){
+  activeFilter=b;
+  document.querySelectorAll('.filter-btn').forEach(x=>x.classList.toggle('active',x.textContent===b));
   renderAll();
 }
 
-function fd(sheet){
+function fd2(sheet){
   const data=allData[sheet]||[];
   if(activeFilter==='الكل')return data;
   return data.filter(r=>r['الفرع']===activeFilter);
@@ -487,141 +436,156 @@ function getC(){
     blue:dark?['#2979d4','#4a9eff','#1a5fac','#6bb8ff','#0d3d7a']:['#1a6ad4','#2979d4','#4a9eff','#0d3d7a','#1a5fac'],
     gold:['#f0b429','#f5c842','#e09b10','#fad566','#c47d00'],
     green:['#22c55e','#4ade80','#16a34a','#86efac','#15803d'],
-    red:['#ef4444','#f87171','#dc2626','#fca5a5','#b91c1c'],
+    multi:['#2979d4','#f0b429','#22c55e','#ef4444','#a855f7'],
     grid:dark?'#1e3a6a':'#dde6f5',
     txt:dark?'#7a9cc8':'#5a78a8',
   };
 }
 
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  document.querySelectorAll('.theme-btn').forEach((b,i)=>b.classList.toggle('active',(i===0&&t==='dark')||(i===1&&t==='light')));
+  Object.values(charts).forEach(c=>{if(c)c.destroy();});
+  charts={};
+  if(Object.keys(allData).length)renderAll();
+}
+
 function renderAll(){
-  const late   = fd('المتأخرات');
-  const ready  = fd('جاهز للصرف');
-  const actBr  = fd('الأداء - فروع');
-  const empData= fd('الأداء - موظفين');
-  const banks  = allData['الأرصدة']||[];
-  const c = getC();
+  const late=fd2('المتأخرات'),ready=fd2('جاهز للصرف');
+  const actBr=fd2('الأداء - فروع'),empData=fd2('الأداء - موظفين');
+  const banks=allData['الأرصدة']||[];
+  const history=allData['التاريخ']||[];
+  const c=getC();
 
-  // KPIs
-  const totalLate  = sum(late,'قيمة المتأخرات');
-  const totalReady = sum(ready,'مبلغ القرض');
-  const totalDisb  = sum(actBr,'مبلغ الصرف هذا الشهر');
-  const totalActive= sum(actBr,'عدد القروض النشطة');
-  const totalPort  = sum(actBr,'محفظة القروض');
+  const totalLate=sum(late,'قيمة المتأخرات');
+  const totalReady=sum(ready,'مبلغ القرض');
+  const totalDisb=sum(actBr,'مبلغ الصرف هذا الشهر');
+  const totalActive=sum(actBr,'عدد القروض النشطة');
+  const totalPort=sum(actBr,'محفظة القروض');
 
-  document.getElementById('kpiLate').textContent     = fmt(totalLate);
-  document.getElementById('kpiReady').textContent    = fmt(totalReady);
-  document.getElementById('kpiReadyCount').textContent = sum(ready,'عدد القروض')+' قرض';
-  document.getElementById('kpiDisbursed').textContent = fmt(totalDisb);
-  document.getElementById('kpiActive').textContent   = Math.round(totalActive).toLocaleString();
+  document.getElementById('kpiLate').textContent=fmt(totalLate);
+  document.getElementById('kpiReady').textContent=fmt(totalReady);
+  document.getElementById('kpiReadyCount').textContent=sum(ready,'عدد القروض')+' قرض';
+  document.getElementById('kpiActive').textContent=Math.round(totalActive).toLocaleString();
+  document.getElementById('kpiPortfolio').textContent=fmt(totalPort);
 
-  // Gauge: نسبة الصرف من المحفظة
-  const gaugeRatio = totalPort > 0 ? Math.min((totalDisb/totalPort)*100, 100) : 0;
-  document.getElementById('gaugeVal').textContent = gaugeRatio.toFixed(1)+'%';
-  document.getElementById('gaugeSub').textContent = fmt(totalDisb)+' من '+fmt(totalPort);
-  renderGauge(gaugeRatio);
+  // Gauge - مبلغ الصرف vs الهدف
+  const target=Math.max(TARGET_DISB,totalDisb);
+  const gaugeRatio=Math.min((totalDisb/target)*100,100);
+  document.getElementById('gaugeVal').textContent=fmt(totalDisb);
+  document.getElementById('gaugeVal').style.color=gaugeRatio>=100?'#22c55e':gaugeRatio>=60?'#f0b429':'#ef4444';
+  document.getElementById('gaugeTarget').textContent='الهدف: '+fmt(target);
+  renderGauge(gaugeRatio,gaugeRatio>=100?'#22c55e':gaugeRatio>=60?'#f0b429':'#ef4444');
 
-  // Late bar chart
-  mkBar('chartLate', late.map(r=>r['الفرع']), late.map(r=>parseFloat(r['قيمة المتأخرات'])||0), c.blue, c);
+  // PAR cards
+  const parRow=document.getElementById('parRow');
+  parRow.innerHTML='';
+  actBr.forEach(r=>{
+    const port=parseFloat(r['محفظة القروض'])||0;
+    const risk=parseFloat(r['رصيد المتأخر >30'])||0;
+    const par=port>0?(risk/port*100):0;
+    const cls=par<5?'par-low-c':par<10?'par-mid-c':'par-high-c';
+    const bg=par<5?'par-low-bg':par<10?'par-mid-bg':'par-high-bg';
+    const card=document.createElement('div');
+    card.className='par-card';
+    card.innerHTML=`
+      <div class="par-branch">${r['الفرع']}</div>
+      <div class="par-value ${cls}">${par.toFixed(2)}%</div>
+      <div class="par-label">نسبة الحقيبة في خطر PAR>30</div>
+      <div class="par-bar"><div class="par-fill ${bg}" style="width:${Math.min(par,100)}%"></div></div>`;
+    parRow.appendChild(card);
+  });
+
+  // Late chart
+  mkBar('chartLate',late.map(r=>r['الفرع']),late.map(r=>parseFloat(r['قيمة المتأخرات'])||0),c.blue,c);
 
   // Ready branch cards
-  const maxReady = Math.max(...ready.map(r=>parseFloat(r['مبلغ القرض'])||0), 1);
-  document.getElementById('branchList').innerHTML = ready.map(r=>{
-    const val = parseFloat(r['مبلغ القرض'])||0;
-    const pct = (val/maxReady*100).toFixed(0);
-    const cnt = parseInt(r['عدد القروض'])||0;
-    return `<div class="branch-item">
+  const maxR=Math.max(...ready.map(r=>parseFloat(r['مبلغ القرض'])||0),1);
+  document.getElementById('branchList').innerHTML=ready.map(r=>{
+    const val=parseFloat(r['مبلغ القرض'])||0;
+    const pct=(val/maxR*100).toFixed(0);
+    return`<div class="branch-item">
       <div class="branch-item-name">${r['الفرع']}</div>
-      <div class="branch-item-right">
+      <div style="text-align:left">
         <div class="branch-item-val">${fmt(val)}</div>
-        <div class="branch-item-count">${cnt} قرض</div>
+        <div class="branch-item-count">${parseInt(r['عدد القروض'])||0} قرض</div>
       </div>
-      <div style="width:100%;position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--border);border-radius:0 0 10px 10px">
-        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--gold),#f5c842);border-radius:inherit"></div>
-      </div>
+      <div class="branch-item-prog" style="width:${pct}%"></div>
     </div>`;
   }).join('');
 
-  // Fix branch items positioning
-  document.querySelectorAll('.branch-item').forEach(el=>{
-    el.style.position='relative';el.style.paddingBottom='6px';
-  });
+  // History charts
+  if(history.length>0){
+    const cols=Object.keys(history[0]).filter(k=>k!=='الفرع');
+    const disbCols=cols.filter(k=>k.startsWith('صرف_')).slice(-3);
+    const lateCols=cols.filter(k=>k.startsWith('متأخر_')).slice(-3);
+    const branches2=[...new Set(history.map(r=>r['الفرع']))];
+
+    if(disbCols.length>0){
+      const datasets2=branches2.map((b,i)=>({
+        label:b,
+        data:disbCols.map(col=>{
+          const row=history.find(r=>r['الفرع']===b);
+          return row?parseFloat(row[col])||0:0;
+        }),
+        backgroundColor:c.multi[i%c.multi.length],
+        borderRadius:6,borderSkipped:false
+      }));
+      mkBarGrouped('chartHistDisb',disbCols.map(k=>k.replace('صرف_','')),datasets2,c);
+    }
+
+    if(lateCols.length>0){
+      const datasets3=branches2.map((b,i)=>({
+        label:b,
+        data:lateCols.map(col=>{
+          const row=history.find(r=>r['الفرع']===b);
+          return row?parseFloat(row[col])||0:0;
+        }),
+        backgroundColor:c.multi[i%c.multi.length],
+        borderRadius:6,borderSkipped:false
+      }));
+      mkBarGrouped('chartHistLate',lateCols.map(k=>k.replace('متأخر_','')),datasets3,c);
+    }
+  }
 
   // Employee chart
   const sorted=[...empData].sort((a,b)=>(parseFloat(b['مبلغ الصرف'])||0)-(parseFloat(a['مبلغ الصرف'])||0)).slice(0,15);
-  mkBarH('chartEmp', sorted.map(r=>r['اسم الموظف']), sorted.map(r=>parseFloat(r['مبلغ الصرف'])||0), c.blue, c);
+  mkBarH('chartEmp',sorted.map(r=>r['اسم الموظف']),sorted.map(r=>parseFloat(r['مبلغ الصرف'])||0),c.blue,c);
   renderEmpTable();
 
-  // Bank KPI cards
+  // Bank cards
   const bankBranches=[...new Set(banks.map(r=>r['الفرع']))];
   const bankRow=document.getElementById('bankRow');
   bankRow.innerHTML='';
-
-  // Add total card first
   const grandTotal=banks.reduce((a,r)=>a+(parseFloat(r['الرصيد'])||0),0);
   const totalCard=document.createElement('div');
   totalCard.className='bank-kpi';
   totalCard.style.borderColor='var(--accent)';
-  totalCard.innerHTML=`
-    <div class="bank-kpi-header">
-      <div class="bank-kpi-branch" style="color:var(--accent-bright)">إجمالي الأرصدة</div>
-      <div class="bank-kpi-icon">🏦</div>
-    </div>
-    <div class="bank-kpi-total" style="color:var(--accent-bright);font-size:22px">${fmt(grandTotal)}</div>
-    <div class="bank-kpi-banks">
-      <div style="font-size:11px;color:var(--text-muted)">دينار عراقي</div>
-    </div>`;
+  totalCard.innerHTML=`<div class="bank-kpi-branch" style="color:var(--accent-bright)">إجمالي الأرصدة</div><div class="bank-kpi-total" style="color:var(--accent-bright)">${fmt(grandTotal)}</div><div style="font-size:10px;color:var(--text-muted)">دينار عراقي</div>`;
   bankRow.appendChild(totalCard);
-
   bankBranches.forEach(branch=>{
     const rows=banks.filter(r=>r['الفرع']===branch);
     const total=rows.reduce((a,r)=>a+(parseFloat(r['الرصيد'])||0),0);
     const card=document.createElement('div');
     card.className='bank-kpi';
-    card.innerHTML=`
-      <div class="bank-kpi-header">
-        <div class="bank-kpi-branch">${branch}</div>
-        <div class="bank-kpi-icon">💰</div>
-      </div>
-      <div class="bank-kpi-total">${fmt(total)}</div>
-      <div class="bank-kpi-divider"></div>
-      <div class="bank-kpi-banks">
-        ${rows.map(r=>`
-          <div class="bank-kpi-row">
-            <span class="bank-kpi-name">${r['البنك']}</span>
-            <span class="bank-kpi-val">${fmtFull(r['الرصيد'])}</span>
-          </div>`).join('')}
-      </div>`;
+    card.innerHTML=`<div class="bank-kpi-branch">${branch}</div><div class="bank-kpi-total">${fmt(total)}</div><div class="bank-kpi-divider"></div><div>${rows.map(r=>`<div class="bank-kpi-row"><span class="bank-kpi-name">${r['البنك']}</span><span class="bank-kpi-val">${fmtFull(r['الرصيد'])}</span></div>`).join('')}</div>`;
     bankRow.appendChild(card);
   });
 }
 
-function renderGauge(pct){
+function renderGauge(pct,color){
   if(charts['gauge'])charts['gauge'].destroy();
   const ctx=document.getElementById('gaugeChart').getContext('2d');
-  const color = pct < 30 ? '#22c55e' : pct < 60 ? '#f0b429' : '#ef4444';
-  document.getElementById('gaugeVal').style.color=color;
+  const dark=document.documentElement.getAttribute('data-theme')==='dark';
   charts['gauge']=new Chart(ctx,{
     type:'doughnut',
-    data:{
-      datasets:[{
-        data:[pct, 100-pct],
-        backgroundColor:[color,'#1e3a6a'],
-        borderWidth:0,
-        circumference:180,
-        rotation:270,
-      }]
-    },
-    options:{
-      responsive:false,
-      cutout:'75%',
-      plugins:{legend:{display:false},tooltip:{enabled:false}},
-      animation:{animateRotate:true,duration:800}
-    }
+    data:{datasets:[{data:[pct,100-pct],backgroundColor:[color,dark?'#1e3a6a':'#dde6f5'],borderWidth:0,circumference:180,rotation:270}]},
+    options:{responsive:false,cutout:'78%',plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{animateRotate:true,duration:800}}
   });
 }
 
 function renderEmpTable(){
-  const empData=fd('الأداء - موظفين');
+  const empData=fd2('الأداء - موظفين');
   const search=document.getElementById('empSearch').value.toLowerCase();
   let data=empData.filter(r=>!search||(r['اسم الموظف']||'').toLowerCase().includes(search));
   data=[...data].sort((a,b)=>{
@@ -632,17 +596,7 @@ function renderEmpTable(){
   document.getElementById('empTbody').innerHTML=data.map((r,i)=>{
     const par=parseFloat(r['PAR% >30'])||0;
     const pc=par<10?'par-low':par<30?'par-mid':'par-high';
-    return`<tr>
-      <td style="color:var(--text-muted)">${i+1}</td>
-      <td style="font-weight:600">${r['اسم الموظف']||'—'}</td>
-      <td>${r['الفرع']||'—'}</td>
-      <td style="color:var(--accent-bright)">${fmt(r['مبلغ الصرف'])}</td>
-      <td>${Math.round(parseFloat(r['عدد طلبات الصرف'])||0)}</td>
-      <td>${Math.round(parseFloat(r['عدد القروض النشطة'])||0)}</td>
-      <td style="color:var(--green)">${fmt(r['محفظة القروض'])}</td>
-      <td>${Math.round(parseFloat(r['عدد المتأخر >30'])||0)}</td>
-      <td><span class="par-badge ${pc}">${par.toFixed(1)}%</span></td>
-    </tr>`;
+    return`<tr><td style="color:var(--text-muted)">${i+1}</td><td style="font-weight:600">${r['اسم الموظف']||'—'}</td><td>${r['الفرع']||'—'}</td><td style="color:var(--accent-bright)">${fmt(r['مبلغ الصرف'])}</td><td>${Math.round(parseFloat(r['عدد القروض المصروفة'])||0)}</td><td>${Math.round(parseFloat(r['عدد القروض النشطة'])||0)}</td><td style="color:var(--green)">${fmt(r['محفظة القروض'])}</td><td>${Math.round(parseFloat(r['عدد المتأخر >30'])||0)}</td><td><span class="par-badge ${pc}">${par.toFixed(1)}%</span></td></tr>`;
   }).join('');
 }
 
@@ -657,13 +611,8 @@ function mkBar(id,labels,data,colors,c){
   const ctx=document.getElementById(id);if(!ctx)return;
   charts[id]=new Chart(ctx.getContext('2d'),{
     type:'bar',
-    data:{labels,datasets:[{data,backgroundColor:colors,borderRadius:8,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ct=>fmt(ct.raw)}}},
-      scales:{
-        x:{ticks:{color:c.txt,font:{family:'Tajawal'}},grid:{color:c.grid}},
-        y:{ticks:{color:c.txt,callback:v=>fmt(v),font:{family:'Tajawal'}},grid:{color:c.grid}}
-      }}
+    data:{labels,datasets:[{data,backgroundColor:colors,borderRadius:6,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ct=>fmt(ct.raw)}}},scales:{x:{ticks:{color:c.txt,font:{family:'Tajawal',size:11}},grid:{color:c.grid}},y:{ticks:{color:c.txt,callback:v=>fmt(v),font:{family:'Tajawal',size:10}},grid:{color:c.grid}}}}
   });
 }
 
@@ -672,13 +621,18 @@ function mkBarH(id,labels,data,colors,c){
   const ctx=document.getElementById(id);if(!ctx)return;
   charts[id]=new Chart(ctx.getContext('2d'),{
     type:'bar',
-    data:{labels,datasets:[{data,backgroundColor:colors,borderRadius:6,borderSkipped:false}]},
-    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ct=>fmt(ct.raw)}}},
-      scales:{
-        x:{ticks:{color:c.txt,callback:v=>fmt(v),font:{family:'Tajawal'}},grid:{color:c.grid}},
-        y:{ticks:{color:c.txt,font:{family:'Tajawal',size:11}},grid:{display:false}}
-      }}
+    data:{labels,datasets:[{data,backgroundColor:colors,borderRadius:5,borderSkipped:false}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ct=>fmt(ct.raw)}}},scales:{x:{ticks:{color:c.txt,callback:v=>fmt(v),font:{family:'Tajawal',size:10}},grid:{color:c.grid}},y:{ticks:{color:c.txt,font:{family:'Tajawal',size:10}},grid:{display:false}}}}
+  });
+}
+
+function mkBarGrouped(id,labels,datasets,c){
+  if(charts[id])charts[id].destroy();
+  const ctx=document.getElementById(id);if(!ctx)return;
+  charts[id]=new Chart(ctx.getContext('2d'),{
+    type:'bar',
+    data:{labels,datasets},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:c.txt,font:{family:'Tajawal',size:10},boxWidth:10}},tooltip:{callbacks:{label:ct=>ct.dataset.label+': '+fmt(ct.raw)}}},scales:{x:{ticks:{color:c.txt,font:{family:'Tajawal',size:10}},grid:{color:c.grid}},y:{ticks:{color:c.txt,callback:v=>fmt(v),font:{family:'Tajawal',size:10}},grid:{color:c.grid}}}}
   });
 }
 
