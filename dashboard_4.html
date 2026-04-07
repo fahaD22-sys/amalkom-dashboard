@@ -480,7 +480,7 @@ function renderAll(){
   // PAR cards
   const parRow=document.getElementById('parRow');
   parRow.innerHTML='';
-  history.forEach(r=>{
+  empData.forEach(r=>{
     const port=parseFloat(r['محفظة القروض'])||0;
     const risk=parseFloat(r['رصيد المتأخر >30'])||0;
     const par=port>0?(risk/port*100):0;
