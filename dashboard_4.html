@@ -500,7 +500,7 @@ const totalBg  = totalPAR<5?'par-low-bg':totalPAR<10?'par-mid-bg':'par-high-bg';
 // ===============================
 // 🔥 كارد PAR الكلي
 // ===============================
-const totalCard=document.createElement('div');
+const totalPARCard=document.createElement('div');
 totalCard.className='par-card';
 totalCard.innerHTML=`
   <div class="par-branch">🏢 الشركة</div>
@@ -512,7 +512,7 @@ totalCard.innerHTML=`
 `;
 
 // نخليه أول واحد
-parRow.appendChild(totalCard);
+parRow.appendChild(totalPARCard);
 
 // ===============================
 // كروت الفروع (كما هي بدون تغيير)
