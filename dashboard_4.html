@@ -478,62 +478,23 @@ function renderAll(){
   renderGauge(gaugeRatio,gaugeRatio>=100?'#22c55e':gaugeRatio>=60?'#f0b429':'#ef4444');
 
   // PAR cards
-const parRow=document.getElementById('parRow');
-parRow.innerHTML='';
-
-// ===============================
-// 🔥 حساب PAR الكلي للشركة
-// ===============================
-let totalPortfolio = 0;
-let totalRisk = 0;
-
-actBr.forEach(r=>{
-  totalPortfolio += parseFloat(r['محفظة القروض']) || 0;
-  totalRisk += parseFloat(r['رصيد المتأخر >30']) || 0;
-});
-
-const totalPAR = totalPortfolio > 0 ? (totalRisk / totalPortfolio * 100) : 0;
-
-const totalCls = totalPAR<5?'par-low-c':totalPAR<10?'par-mid-c':'par-high-c';
-const totalBg  = totalPAR<5?'par-low-bg':totalPAR<10?'par-mid-bg':'par-high-bg';
-
-// ===============================
-// 🔥 كارد PAR الكلي
-// ===============================
-const totalPARCard=document.createElement('div');
-totalCard.className='par-card';
-totalCard.innerHTML=`
-  <div class="par-branch">🏢 الشركة</div>
-  <div class="par-value ${totalCls}">${totalPAR.toFixed(2)}%</div>
-  <div class="par-label">PAR الكلي للشركة</div>
-  <div class="par-bar">
-    <div class="par-fill ${totalBg}" style="width:${Math.min(totalPAR,100)}%"></div>
-  </div>
-`;
-
-// نخليه أول واحد
-parRow.appendChild(totalPARCard);
-
-// ===============================
-// كروت الفروع (كما هي بدون تغيير)
-// ===============================
-actBr.forEach(r=>{
-  const port=parseFloat(r['محفظة القروض'])||0;
-  const risk=parseFloat(r['رصيد المتأخر >30'])||0;
-  const par=port>0?(risk/port*100):0;
-  const cls=par<5?'par-low-c':par<10?'par-mid-c':'par-high-c';
-  const bg=par<5?'par-low-bg':par<10?'par-mid-bg':'par-high-bg';
-  const card=document.createElement('div');
-  card.className='par-card';
-  card.innerHTML=`
-    <div class="par-branch">${r['الفرع']}</div>
-    <div class="par-value ${cls}">${par.toFixed(2)}%</div>
-    <div class="par-label">نسبة الحقيبة في خطر PAR>30</div>
-    <div class="par-bar">
-      <div class="par-fill ${bg}" style="width:${Math.min(par,100)}%"></div>
-    </div>`;
-  parRow.appendChild(card);
-});
+  const parRow=document.getElementById('parRow');
+  parRow.innerHTML='';
+  actBr.forEach(r=>{
+    const port=parseFloat(r['محفظة القروض'])||0;
+    const risk=parseFloat(r['رصيد المتأخر >30'])||0;
+    const par=port>0?(risk/port*100):0;
+    const cls=par<5?'par-low-c':par<10?'par-mid-c':'par-high-c';
+    const bg=par<5?'par-low-bg':par<10?'par-mid-bg':'par-high-bg';
+    const card=document.createElement('div');
+    card.className='par-card';
+    card.innerHTML=`
+      <div class="par-branch">${r['الفرع']}</div>
+      <div class="par-value ${cls}">${par.toFixed(2)}%</div>
+      <div class="par-label">نسبة الحقيبة في خطر PAR>30</div>
+      <div class="par-bar"><div class="par-fill ${bg}" style="width:${Math.min(par,100)}%"></div></div>`;
+    parRow.appendChild(card);
+  });
 
   // Late chart
   mkBar('chartLate',late.map(r=>r['الفرع']),late.map(r=>parseFloat(r['قيمة المتأخرات'])||0),c.blue,c);
