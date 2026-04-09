@@ -180,7 +180,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
 <body>
 
 <div class="header">
-  <div class="header-title">داشبورد <span>أمالكوم</span></div>
+  <div class="header-title">داشبورد <span>متابعة الاداء</span></div>
   <div id="headerDate" class="header-date">—</div>
   <div class="theme-toggle">
     <button class="theme-btn active" onclick="setTheme('dark')">🌙</button>
@@ -195,8 +195,8 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
 <div id="loginScreen" style="position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;">
   <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:48px 56px;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.4);width:340px;">
     <div style="font-size:44px;margin-bottom:12px;">🔐</div>
-    <div style="font-size:20px;font-weight:800;margin-bottom:4px;">أمالكوم</div>
-    <div style="font-size:12px;color:var(--text-muted);margin-bottom:24px;">داشبورد متابعة الأداء</div>
+    <div style="font-size:20px;font-weight:800;margin-bottom:4px;">داش بورد متابعة الاداء</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:24px;">Develop By Nawar IT</div>
     <input id="passwordInput" type="password" placeholder="كلمة المرور"
       onkeydown="if(event.key==='Enter')checkPassword()"
       style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-family:'Tajawal',sans-serif;font-size:15px;color:var(--text);outline:none;text-align:center;margin-bottom:10px;direction:ltr;">
@@ -355,7 +355,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
 <script>
 let allData={},charts={},activeFilter='الكل',sortField='مبلغ الصرف',sortAsc=false;
 const EXCEL_URL="https://raw.githubusercontent.com/fahad22-sys/amalkom-dashboard/main/output/dashboard_output.xlsx";
-const PASSWORD="amalkom2026";
+const PASSWORD="2026";
 const TARGET_DISB=1600000000;
 
 function fmt(n){
@@ -531,7 +531,7 @@ document.getElementById('gaugePortVal').style.color = parColor;
 document.getElementById('gaugePortTarget').textContent = 'المستهدف: 5%';
 
 // الرسم (انتبه ترتيب البراميتر)
-renderGauge(parRatio, parColor, 'gaugePortfolio');
+renderGauge('gaugePortfolio', parRatio, parColor);
 
 
 // ===============================
