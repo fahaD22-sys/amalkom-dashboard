@@ -266,7 +266,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
 
       <!-- Gauge 1: الصرف -->
       <div class="gauge-card">
-        <div class="gauge-title"> الصرف هذا الشهر</div>
+        <div class="gauge-title">الصرف هذا الشهر</div>
         <div class="gauge-wrap">
           <canvas id="gaugeChart"></canvas>
           <div class="gauge-val" id="gaugeVal">—</div>
@@ -275,9 +275,9 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
         <div class="gauge-range"><span>0</span><span>الهدف</span><span>Max</span></div>
       </div>
 
-      <!-- Gauge 2: BAR الكلي -->
+      <!-- Gauge 2: BAR الكلية -->
       <div class="gauge-card">
-        <div class="gauge-title">BAR الكلي</div>
+        <div class="gauge-title">PAR% الكلي </div>
         <div class="gauge-wrap">
           <canvas id="gaugePortfolio"></canvas>
           <div class="gauge-val" id="gaugePortVal">—</div>
@@ -348,7 +348,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
 </div>
 
 <div class="footer-bar" id="footerBar" style="display:none">
-  <span>أملكوم للتنمية الاقتصادية</span>
+  <span>أمالكوم للتنمية الاقتصادية</span>
   <span id="footerDate">—</span>
 </div>
 
@@ -496,10 +496,10 @@ function renderAll(){
   renderGauge('gaugeChart',gaugeRatio,gaugeRatio>=100?'#22c55e':gaugeRatio>=60?'#f0b429':'#ef4444');
 
   // ===============================
-// 🔥 Gauge 2 - PAR الكلي (بدل المحفظة)
+// 🔥 Gauge 2 - PAR الكلي (بدل الحقيبة)
 // ===============================
 
-// حساب PAR
+// نحسب من نفس بيانات الفروع
 let totalPortfolio = 0;
 let totalRisk = 0;
 
@@ -519,7 +519,7 @@ const parRatio = Math.min((totalPAR / TARGET_PAR) * 100, 100);
 // عرض الرقم
 document.getElementById('gaugePortVal').textContent = totalPAR.toFixed(2) + "%";
 
-// اللون
+// لون حسب الخطر
 const parColor =
   totalPAR < 5 ? '#22c55e' :
   totalPAR < 10 ? '#f0b429' :
@@ -530,27 +530,37 @@ document.getElementById('gaugePortVal').style.color = parColor;
 // الهدف
 document.getElementById('gaugePortTarget').textContent = 'المستهدف: 5%';
 
-// الرسم
+// الرسم (انتبه ترتيب البراميتر)
 renderGauge(parRatio, parColor, 'gaugePortfolio');
 
-  // PAR cards
-  const parRow=document.getElementById('parRow');
-  parRow.innerHTML='';
-  actBr.forEach(r=>{
-    const port=parseFloat(r['محفظة القروض'])||0;
-    const risk=parseFloat(r['رصيد المتأخر >30'])||0;
-    const par=port>0?(risk/port*100):0;
-    const cls=par<5?'par-low-c':par<10?'par-mid-c':'par-high-c';
-    const bg=par<5?'par-low-bg':par<10?'par-mid-bg':'par-high-bg';
-    const card=document.createElement('div');
-    card.className='par-card';
-    card.innerHTML=`
-      <div class="par-branch">${r['الفرع']}</div>
-      <div class="par-value ${cls}">${par.toFixed(2)}%</div>
-      <div class="par-label">نسبة الحقيبة في خطر PAR>30</div>
-      <div class="par-bar"><div class="par-fill ${bg}" style="width:${Math.min(par,100)}%"></div></div>`;
-    parRow.appendChild(card);
-  });
+
+// ===============================
+// PAR cards (بدون تغيير)
+// ===============================
+const parRow=document.getElementById('parRow');
+parRow.innerHTML='';
+
+actBr.forEach(r=>{
+  const port=parseFloat(r['محفظة القروض'])||0;
+  const risk=parseFloat(r['رصيد المتأخر >30'])||0;
+  const par=port>0?(risk/port*100):0;
+
+  const cls=par<5?'par-low-c':par<10?'par-mid-c':'par-high-c';
+  const bg=par<5?'par-low-bg':par<10?'par-mid-bg':'par-high-bg';
+
+  const card=document.createElement('div');
+  card.className='par-card';
+
+  card.innerHTML=`
+    <div class="par-branch">${r['الفرع']}</div>
+    <div class="par-value ${cls}">${par.toFixed(2)}%</div>
+    <div class="par-label">نسبة الحقيبة في خطر PAR>30</div>
+    <div class="par-bar">
+      <div class="par-fill ${bg}" style="width:${Math.min(par,100)}%"></div>
+    </div>`;
+
+  parRow.appendChild(card);
+});
 
   // Late chart
   mkBar('chartLate',late.map(r=>r['الفرع']),late.map(r=>parseFloat(r['قيمة المتأخرات'])||0),c.blue,c);
