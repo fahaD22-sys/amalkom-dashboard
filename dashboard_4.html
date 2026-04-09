@@ -261,8 +261,10 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
     <!-- PAR Row -->
     <div class="par-row" id="parRow"></div>
 
-    <!-- Mid Row: Gauge + Late chart + Ready cards -->
-    <div class="mid-row">
+    <!-- Mid Row: 2 Gauges + Late chart + Ready cards -->
+    <div class="mid-row" style="grid-template-columns:200px 200px 1fr 1fr;">
+
+      <!-- Gauge 1: الصرف -->
       <div class="gauge-card">
         <div class="gauge-title"> الصرف هذا الشهر</div>
         <div class="gauge-wrap">
@@ -272,15 +274,31 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
         <div class="gauge-target" id="gaugeTarget">—</div>
         <div class="gauge-range"><span>0</span><span>الهدف</span><span>Max</span></div>
       </div>
+
+      <!-- Gauge 2: BAR الكلي -->
+      <div class="gauge-card">
+        <div class="gauge-title">BAR الكلي</div>
+        <div class="gauge-wrap">
+          <canvas id="gaugePortfolio"></canvas>
+          <div class="gauge-val" id="gaugePortVal">—</div>
+        </div>
+        <div class="gauge-target" id="gaugePortTarget">—</div>
+        <div class="gauge-range"><span>0</span><span>المستهدف</span><span>Max</span></div>
+      </div>
+
+      <!-- Late chart - أصغر -->
       <div class="chart-card">
         <div class="chart-title">المتأخرات حسب الفرع</div>
-        <div class="chart-wrap-md"><canvas id="chartLate"></canvas></div>
+        <div class="chart-wrap"><canvas id="chartLate"></canvas></div>
         <div class="chart-date" id="lateDate">—</div>
       </div>
+
+      <!-- Ready branch cards -->
       <div class="ready-card">
         <div class="chart-title">جاهز للصرف حسب الفرع</div>
         <div class="branch-list" id="branchList"></div>
       </div>
+
     </div>
 
     <!-- History charts -->
@@ -330,7 +348,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
 </div>
 
 <div class="footer-bar" id="footerBar" style="display:none">
-  <span>أمالكوم للتنمية الاقتصادية</span>
+  <span>أملكوم للتنمية الاقتصادية</span>
   <span id="footerDate">—</span>
 </div>
 
@@ -338,7 +356,7 @@ body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);min
 let allData={},charts={},activeFilter='الكل',sortField='مبلغ الصرف',sortAsc=false;
 const EXCEL_URL="https://raw.githubusercontent.com/fahad22-sys/amalkom-dashboard/main/output/dashboard_output.xlsx";
 const PASSWORD="amalkom2026";
-const TARGET_DISB=1600000000000;
+const TARGET_DISB=1600000000;
 
 function fmt(n){
   if(n===undefined||n===null||isNaN(n))return'—';
@@ -469,13 +487,51 @@ function renderAll(){
   document.getElementById('kpiActive').textContent=Math.round(totalActive).toLocaleString();
   document.getElementById('kpiPortfolio').textContent=fmt(totalPort);
 
-  // Gauge - مبلغ الصرف vs الهدف
+  // Gauge 1 - الصرف
   const target=Math.max(TARGET_DISB,totalDisb);
   const gaugeRatio=Math.min((totalDisb/target)*100,100);
   document.getElementById('gaugeVal').textContent=fmt(totalDisb);
   document.getElementById('gaugeVal').style.color=gaugeRatio>=100?'#22c55e':gaugeRatio>=60?'#f0b429':'#ef4444';
   document.getElementById('gaugeTarget').textContent='الهدف: '+fmt(target);
-  renderGauge(gaugeRatio,gaugeRatio>=100?'#22c55e':gaugeRatio>=60?'#f0b429':'#ef4444');
+  renderGauge('gaugeChart',gaugeRatio,gaugeRatio>=100?'#22c55e':gaugeRatio>=60?'#f0b429':'#ef4444');
+
+  // ===============================
+// 🔥 Gauge 2 - PAR الكلي (بدل المحفظة)
+// ===============================
+
+// حساب PAR
+let totalPortfolio = 0;
+let totalRisk = 0;
+
+actBr.forEach(r=>{
+  totalPortfolio += parseFloat(r['محفظة القروض']) || 0;
+  totalRisk += parseFloat(r['رصيد المتأخر >30']) || 0;
+});
+
+const totalPAR = totalPortfolio > 0 ? (totalRisk / totalPortfolio * 100) : 0;
+
+// الهدف 5%
+const TARGET_PAR = 5;
+
+// نسبة Gauge
+const parRatio = Math.min((totalPAR / TARGET_PAR) * 100, 100);
+
+// عرض الرقم
+document.getElementById('gaugePortVal').textContent = totalPAR.toFixed(2) + "%";
+
+// اللون
+const parColor =
+  totalPAR < 5 ? '#22c55e' :
+  totalPAR < 10 ? '#f0b429' :
+  '#ef4444';
+
+document.getElementById('gaugePortVal').style.color = parColor;
+
+// الهدف
+document.getElementById('gaugePortTarget').textContent = 'المستهدف: 5%';
+
+// الرسم
+renderGauge(parRatio, parColor, 'gaugePortfolio');
 
   // PAR cards
   const parRow=document.getElementById('parRow');
@@ -573,11 +629,11 @@ function renderAll(){
   });
 }
 
-function renderGauge(pct,color){
-  if(charts['gauge'])charts['gauge'].destroy();
-  const ctx=document.getElementById('gaugeChart').getContext('2d');
+function renderGauge(id,pct,color){
+  if(charts[id])charts[id].destroy();
+  const ctx=document.getElementById(id).getContext('2d');
   const dark=document.documentElement.getAttribute('data-theme')==='dark';
-  charts['gauge']=new Chart(ctx,{
+  charts[id]=new Chart(ctx,{
     type:'doughnut',
     data:{datasets:[{data:[pct,100-pct],backgroundColor:[color,dark?'#1e3a6a':'#dde6f5'],borderWidth:0,circumference:180,rotation:270}]},
     options:{responsive:false,cutout:'78%',plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{animateRotate:true,duration:800}}
@@ -629,9 +685,35 @@ function mkBarH(id,labels,data,colors,c){
 function mkBarGrouped(id,labels,datasets,c){
   if(charts[id])charts[id].destroy();
   const ctx=document.getElementById(id);if(!ctx)return;
+
+  // Plugin لإظهار المجموع الكلي فوق كل مجموعة
+  const totalPlugin={
+    id:'totalLabels',
+    afterDatasetsDraw(chart){
+      const {ctx:cx,data,scales:{x,y}}=chart;
+      const totals={};
+      data.datasets.forEach(ds=>{
+        ds.data.forEach((v,i)=>{totals[i]=(totals[i]||0)+(v||0);});
+      });
+      cx.save();
+      cx.font='bold 10px Tajawal,sans-serif';
+      cx.fillStyle=c.txt;
+      cx.textAlign='center';
+      Object.keys(totals).forEach(i=>{
+        const meta=chart.getDatasetMeta(data.datasets.length-1);
+        if(meta.data[i]){
+          const bar=meta.data[i];
+          cx.fillText(fmt(totals[i]),bar.x,y.getPixelForValue(totals[i])-6);
+        }
+      });
+      cx.restore();
+    }
+  };
+
   charts[id]=new Chart(ctx.getContext('2d'),{
     type:'bar',
     data:{labels,datasets},
+    plugins:[totalPlugin],
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:c.txt,font:{family:'Tajawal',size:10},boxWidth:10}},tooltip:{callbacks:{label:ct=>ct.dataset.label+': '+fmt(ct.raw)}}},scales:{x:{ticks:{color:c.txt,font:{family:'Tajawal',size:10}},grid:{color:c.grid}},y:{ticks:{color:c.txt,callback:v=>fmt(v),font:{family:'Tajawal',size:10}},grid:{color:c.grid}}}}
   });
 }
